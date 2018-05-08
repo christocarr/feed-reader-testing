@@ -97,7 +97,7 @@ $(function() {
 		});
 		
 		it('feed is loaded', function(done) {
-			const entryLength = $('.feed .entry').length;
+			let entryLength = $('.feed .entry').length;
 			expect(entryLength).toBeGreaterThan(0);
 			done();		
 		});
@@ -105,9 +105,27 @@ $(function() {
 	});
 	
 	/* TODO: Write a new test suite named "New Feed Selection" */
-
+	describe('New Feed Selection', function() {
+		
 		/* TODO: Write a test that ensures when a new feed is loaded
 		 * by the loadFeed function that the content actually changes.
 		 * Remember, loadFeed() is asynchronous.
 		 */
+		let FEED_1, FEED_2;
+		
+		beforeEach(function(done) {
+			loadFeed(0, function() {
+				FEED_1 = $('.feed .entry').find('h2')[0].textContent;
+				loadFeed(1, done);
+			});
+		});
+		
+		it('changes feed results', function(done) {
+			FEED_2 = $('.feed .entry').find('h2')[0].textContent;
+			expect(FEED_1).not.toEqual(FEED_2);
+			done();
+		});
+			
+	});	
+	
 }());
